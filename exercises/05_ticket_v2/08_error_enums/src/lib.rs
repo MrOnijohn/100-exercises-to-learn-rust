@@ -1,7 +1,10 @@
 // TODO: Use two variants, one for a title error and one for a description error.
 //   Each variant should contain a string with the explanation of what went wrong exactly.
 //   You'll have to update the implementation of `Ticket::new` as well.
-enum TicketNewError {}
+enum TicketNewError {
+    TitleError { title_error_message: String },
+    DescriptionError { description_error_message: String },
+}
 
 // TODO: `easy_ticket` should panic when the title is invalid, using the error message
 //   stored inside the relevant variant of the `TicketNewError` enum.
@@ -31,8 +34,16 @@ impl Ticket {
         description: String,
         status: Status,
     ) -> Result<Ticket, TicketNewError> {
+        match title {
+            title.is_empty() => TicketNewError::TitleError {
+                title_error_message: "Title cannot be empty".to_string(),
+            },
+
+            }
         if title.is_empty() {
-            return Err("Title cannot be empty".to_string());
+            return TicketNewError::TitleError {
+                title_error_message: "Title cannot be empty".to_string(),
+            };
         }
         if title.len() > 50 {
             return Err("Title cannot be longer than 50 bytes".to_string());
