@@ -23,10 +23,11 @@ pub enum TicketNewError {
     DescriptionCannotBeEmpty,
     #[error("Description cannot be longer than 500 bytes")]
     DescriptionTooLong,
-    #[error(transparent)]
+    #[error("{source}")]
     InvalidStatus {
         #[from]
-        inner: crate::status::ParseStatusError,
+        #[source]
+        source: crate::status::ParseStatusError,
     },
 }
 
@@ -73,18 +74,6 @@ mod tests {
     #[test]
     fn invalid_status() {
         let err = Ticket::new(valid_title(), valid_description(), "invalid".into()).unwrap_err();
-        //Start
-        // Print the error message
-        dbg!(err.to_string());
-
-        // Print the source
-        if let Some(source) = err.source() {
-            dbg!(source.to_string());
-        } else {
-            println!("No source found!");
-        }
-        //Stop
-
         assert_eq!(
             err.to_string(),
             "`invalid` is not a valid status. Use one of: ToDo, InProgress, Done"
