@@ -11,29 +11,49 @@ pub struct Ticket {
 
 impl Ticket {
     pub fn new(title: String, description: String, status: String) -> Ticket {
+        if Self::title_is_ok(&title)
+            && Self::description_is_ok(&description)
+            && Self::status_is_ok(&status)
+        {
+            Ticket {
+                title,
+                description,
+                status,
+            }
+        } else {
+            panic!("Something went wrong!")
+        }
+    }
+    // Checker methods
+    fn title_is_ok(title: &String) -> bool {
         if title.is_empty() {
             panic!("Title cannot be empty");
-        }
-        if title.len() > 50 {
+        } else if title.len() > 50 {
             panic!("Title cannot be longer than 50 bytes");
-        }
-        if description.is_empty() {
-            panic!("Description cannot be empty");
-        }
-        if description.len() > 500 {
-            panic!("Description cannot be longer than 500 bytes");
-        }
-        if status != "To-Do" && status != "In Progress" && status != "Done" {
-            panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
-        }
-
-        Ticket {
-            title,
-            description,
-            status,
+        } else {
+            true
         }
     }
 
+    fn description_is_ok(description: &String) -> bool {
+        if description.is_empty() {
+            panic!("Description cannot be empty");
+        } else if description.len() > 500 {
+            panic!("Description cannot be longer than 500 bytes");
+        } else {
+            true
+        }
+    }
+
+    fn status_is_ok(status: &String) -> bool {
+        if status != "To-Do" && status != "In Progress" && status != "Done" {
+            panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
+        } else {
+            true
+        }
+    }
+
+    // Getter methods
     pub fn title(&self) -> &String {
         &self.title
     }
@@ -44,6 +64,31 @@ impl Ticket {
 
     pub fn status(&self) -> &String {
         &self.status
+    }
+
+    // Setter methods
+    pub fn set_title(&mut self, new_title: String) {
+        if Self::title_is_ok(&new_title) {
+            self.title = new_title;
+        } else {
+            panic!("Not a valid title!")
+        }
+    }
+
+    pub fn set_status(&mut self, new_status: String) {
+        if Self::status_is_ok(&new_status) {
+            self.status = new_status;
+        } else {
+            panic!("Not a valid status!")
+        }
+    }
+
+    pub fn set_description(&mut self, new_description: String) {
+        if Self::description_is_ok(&new_description) {
+            self.description = new_description;
+        } else {
+            panic!("Not a valid description!")
+        }
     }
 }
 
