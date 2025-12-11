@@ -31,6 +31,16 @@ impl TicketStore {
     pub fn add_ticket(&mut self, ticket: Ticket) {
         self.tickets.push(ticket);
     }
+
+    pub fn to_dos(&self) -> Vec<&Ticket> {
+        self.iter()
+            .filter(|ticket| ticket.status == Status::ToDo)
+            .collect()
+    }
+
+    fn iter(&self) -> std::slice::Iter<'_, Ticket> {
+        self.tickets.iter()
+    }
 }
 
 #[cfg(test)]
