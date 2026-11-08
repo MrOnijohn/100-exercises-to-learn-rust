@@ -70,7 +70,6 @@ It uses both mechanisms:
 
 - it has a generic parameter, `RHS` (right-hand side), which defaults to `Self`
 - it has an associated type, `Output`, the type of the result of the addition
-
 ### `RHS`
 
 `RHS` is a generic parameter to allow for different types to be added together.\

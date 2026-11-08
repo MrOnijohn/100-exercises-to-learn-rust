@@ -13,7 +13,6 @@ pub struct Ticket {
     pub description: TicketDescription,
     pub status: Status,
 }
-
 #[derive(Clone, Debug, Copy, PartialEq)]
 pub enum Status {
     ToDo,
@@ -30,6 +29,12 @@ impl TicketStore {
 
     pub fn add_ticket(&mut self, ticket: Ticket) {
         self.tickets.push(ticket);
+    }
+
+    pub fn to_dos(&self) -> Vec<&Ticket> {
+        self.tickets.iter()
+            .filter(|t| t.status == Status::ToDo)
+            .collect()
     }
 }
 
